@@ -19,9 +19,13 @@ const requestHandler = (req, res) => {
         console.log(chunk);
         body.push(chunk);
       });
-      // 'end' event will fire once the it is done parsing the incoming request. 
+      // 'end' event will fire once it is done parsing the incoming request. 
       // We are using this to make sure we have a complete incoming data in the body array.
       // Now we work with the chunks of the data that we collected.
+      // The chunk is a Buffer which contains binary data. So, the array we created above is for
+      // the buffers.
+      // The concat() returns a Buffer object which is binary data. To convert it to string, we call
+      // toString() on the Buffer.
       req.on('end', () => {
         const parsedBody = Buffer.concat(body).toString();
         const message = parsedBody.split('=')[1]; // e.g. message=Welcome we need the 'Welcome' part here.
